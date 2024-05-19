@@ -60,7 +60,7 @@
 
    :feature 'delimiter
    :language 'cue
-   '((["..." "," "."]) @font-lock-delimiter-face)
+   '((["," "."]) @font-lock-delimiter-face)
 
    :feature 'error
    :language 'cue
