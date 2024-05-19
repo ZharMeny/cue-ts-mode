@@ -107,8 +107,6 @@
 		  (constant number type)
 		  (bracket delimiter error operator)))
     (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules)
-
-
     (treesit-major-mode-setup)))
 
 ;;;###autoload
