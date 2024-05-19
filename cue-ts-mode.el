@@ -71,6 +71,11 @@
    :language 'cue
    '((ERROR) @font-lock-warning-face)
 
+   :feature 'function
+   :language 'cue
+   :override t
+   '((builtin_function) @font-lock-function-call-face)
+
    :feature 'keyword
    :language 'cue
    ;; If we use `import_declaration' here, the module name will also
@@ -106,7 +111,8 @@
 		'((comment)
 		  (keyword string)
 		  (constant number type)
-		  (bracket delimiter error operator)))
+		  (bracket delimiter error function operator)))
+    (setq-local treesit-font-lock-settings cue-ts-mode--font-lock-settings)
     (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules)
     (treesit-major-mode-setup)))
 
