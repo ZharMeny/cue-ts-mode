@@ -35,6 +35,11 @@
   :safe 'integerp
   :group 'cue)
 
+(defvar cue-ts-mode--operators
+  '("!" "!=" "!~" "&" "&&" "*" "+" "-" "..." "/" ":"
+    "<" "<=" "=" "==" "=~" ">" ">=" "?" "|" "||")
+  "Cue operators for tree-sitter font-locking.")
+
 (defvar cue-ts-mode--indent-rules
   '((cue
      ((parent-is "source_file") column-0 0)
@@ -56,7 +61,7 @@
 
    :feature 'constant
    :language 'cue
-   '(([(boolean) (null)]) @font-lock-constant-face)
+   '(([(boolean) (bottom) (null) (top)]) @font-lock-constant-face)
 
    :feature 'delimiter
    :language 'cue
@@ -68,11 +73,17 @@
 
    :feature 'keyword
    :language 'cue
-   '(([(identifier) "import"]) @font-lock-keyword-face)
+   ;; If we use `import_declaration' here, the module name will also
+   ;; be higlighted, which we don't want.
+   '((["import" (identifier)]) @font-lock-keyword-face)
 
    :feature 'number
    :language 'cue
    '(([(float) (number)]) @font-lock-number-face)
+
+   :feature 'operator
+   :language 'cue
+   `(([,@cue-ts-mode--operators]) @font-lock-operator-face)
 
    :feature 'string
    :language 'cue
@@ -94,7 +105,7 @@
 		'((comment)
 		  (keyword string)
 		  (constant number type)
-		  (bracket delimiter error)))
+		  (bracket delimiter error operator)))
     (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules)
 
 
