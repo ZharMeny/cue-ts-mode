@@ -1,6 +1,8 @@
 ;;; cue-ts-mode.el --- Tree-sitter support for Cue  -*- lexical-binding: t; -*-
 
+;; Homepage: https://github.com/ZharMeny/cue-ts-mode
 ;; Package-Requires: ((emacs "29.1"))
+;; Package-Version: 0.1.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -25,6 +27,22 @@
 ;;; Code:
 
 (require 'treesit)
+
+(defcustom cue-ts-mode-indent-offset 8
+  "Number of spaces for each indentation step in `cue-ts-mode'."
+  :version "0.1.0"
+  :type 'integer
+  :safe 'integerp
+  :group 'cue)
+
+(defvar cue-ts-mode--indent-rules
+  '((cue
+     ((parent-is "source_file") column-0 0)
+     ((node-is ")") parent-bol 0)
+     ((node-is "]") parent-bol 0)
+     ((node-is "}") parent-bol 0)
+     ((parent-is "struct_lit") parent-bol cue-ts-mode-indent-offset)
+     (no-node parent-bol 0))))
 
 (defvar cue-ts-mode--font-lock-settings
   (treesit-font-lock-rules
@@ -77,6 +95,8 @@
 		  (keyword string)
 		  (constant number type)
 		  (bracket delimiter error)))
+    (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules)
+
 
     (treesit-major-mode-setup)))
 
