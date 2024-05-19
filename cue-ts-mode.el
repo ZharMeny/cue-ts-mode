@@ -28,13 +28,33 @@
 
 (defvar cue-ts-mode--font-lock-settings
   (treesit-font-lock-rules
+   :feature 'bracket
+   :language 'cue
+   '((["(" ")" "{" "}" "[" "]"]) @font-lock-bracket-face)
+
    :feature 'comment
    :language 'cue
    '((comment) @font-lock-comment-face)
 
+   :feature 'constant
+   :language 'cue
+   '(([(boolean) (null)]) @font-lock-constant-face)
+
+   :feature 'delimiter
+   :language 'cue
+   '((["..." "," "."]) @font-lock-delimiter-face)
+
+   :feature 'error
+   :language 'cue
+   '((ERROR) @font-lock-warning-face)
+
    :feature 'keyword
    :language 'cue
-   '((identifier) @font-lock-keyword-face)
+   '(([(identifier) "import"]) @font-lock-keyword-face)
+
+   :feature 'number
+   :language 'cue
+   '(([(float) (number)]) @font-lock-number-face)
 
    :feature 'string
    :language 'cue
@@ -42,15 +62,11 @@
 
    :feature 'type
    :language 'cue
-   '((primitive_type) @font-lock-type-face)
-
-   :feature 'error
-   :language 'cue
-   '((ERROR) @font-lock-warning-face)))
+   '((primitive_type) @font-lock-type-face)))
 
 ;;;###autoload
 (define-derived-mode cue-ts-mode prog-mode "Cue"
-
+  "Major mode for editing Cue Language files, powered by tree-sitter."
   (when (treesit-ready-p 'cue)
     (treesit-parser-create 'cue)
     (setq-local comment-start "// ")
@@ -59,8 +75,8 @@
     (setq-local treesit-font-lock-feature-list
 		'((comment)
 		  (keyword string)
-		  (type)
-		  (error)))
+		  (constant number type)
+		  (bracket delimiter error)))
 
     (treesit-major-mode-setup)))
 
