@@ -96,6 +96,7 @@
 ;;;###autoload
 (define-derived-mode cue-ts-mode prog-mode "Cue"
   "Major mode for editing Cue Language files, powered by tree-sitter."
+  :group 'cue
   (when (treesit-ready-p 'cue)
     (treesit-parser-create 'cue)
     (setq-local comment-start "// ")
