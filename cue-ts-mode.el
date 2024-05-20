@@ -1,5 +1,9 @@
 ;;; cue-ts-mode.el --- Tree-sitter support for Cue  -*- lexical-binding: t; -*-
 
+;; Copyright (C) 2024 ZharMeny
+
+;; This file is not part of GNU Emacs.
+
 ;; Homepage: https://github.com/ZharMeny/cue-ts-mode
 ;; Package-Requires: ((emacs "29.1"))
 ;; Package-Version: 0.1.0
@@ -16,8 +20,6 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
 
