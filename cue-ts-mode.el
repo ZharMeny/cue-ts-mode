@@ -106,9 +106,8 @@
   :group 'cue
   (when (treesit-ready-p 'cue)
     (treesit-parser-create 'cue)
-    (setq-local comment-start "// ")
     (setq-local comment-end "")
-    (setq-local treesit-font-lock-settings cue-ts-mode--font-lock-settings)
+    (setq-local comment-start "// ")
     (setq-local treesit-font-lock-feature-list
 		'((comment)
 		  (keyword string type)
