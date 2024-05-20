@@ -71,6 +71,7 @@
 
    :feature 'error
    :language 'cue
+   :override t
    '((ERROR) @font-lock-warning-face)
 
    :feature 'function
