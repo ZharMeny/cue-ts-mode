@@ -114,8 +114,10 @@
 		  (keyword string type)
 		  (constant number)
 		  (bracket delimiter error function operator)))
-    (setq-local treesit-font-lock-settings cue-ts-mode--font-lock-settings)
-    (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules)
+    (setq-local treesit-font-lock-settings
+		cue-ts-mode--font-lock-settings)
+    (setq-local treesit-simple-indent-rules
+		cue-ts-mode--indent-rules)
     (treesit-major-mode-setup)))
 
 ;;;###autoload
