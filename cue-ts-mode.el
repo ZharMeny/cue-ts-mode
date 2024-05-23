@@ -83,7 +83,7 @@
    :language 'cue
    ;; If we use `import_declaration' here, the module name will also
    ;; be higlighted, which we don't want.
-   '((["import" (identifier)]) @font-lock-keyword-face)
+   '((["import" (identifier) (package_clause)]) @font-lock-keyword-face)
 
    :feature 'number
    :language 'cue
