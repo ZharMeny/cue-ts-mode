@@ -109,6 +109,7 @@
     (treesit-parser-create 'cue)
     (setq-local comment-end "")
     (setq-local comment-start "// ")
+    (setq-local comment-start-skip "//\\s-*")
     (setq-local treesit-font-lock-feature-list
 		'((comment)
 		  (keyword string type)
