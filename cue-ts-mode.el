@@ -59,9 +59,17 @@
 
 (defvar cue-ts-mode--font-lock-settings
   (treesit-font-lock-rules
+   :feature 'attributes
+   :language 'cue
+   '((attribute :anchor (identifier) @font-lock-preprocessor-face))
+
    :feature 'bracket
    :language 'cue
    `(([,@cue-ts-mode--brackets]) @font-lock-bracket-face)
+
+   :feature 'builtin
+   :language 'cue
+   '((builtin_function) @font-lock-builtin-face)
 
    :feature 'comment
    :language 'cue
@@ -80,16 +88,22 @@
    :override t
    '((ERROR) @font-lock-warning-face)
 
+   ;; Breaks string font-locking??
+   ;; :feature 'escape
+   ;; :language 'cue
+   ;; :override t
+   ;; '([(escape_char) (escape_unicode)] @font-lock-escape-face)
+
    :feature 'function
    :language 'cue
-   :override t
-   '((builtin_function) @font-lock-function-call-face)
+   '([(call_expression
+       function: (selector_expression
+		  (identifier) @font-lock-function-call-face))])
 
    :feature 'keyword
    :language 'cue
-   ;; If we use `import_declaration' here, the module name will also
-   ;; be higlighted, which we don't want.
-   '((["import" (identifier) (package_clause)]) @font-lock-keyword-face)
+   '(([(identifier) (package_clause)] @font-lock-keyword-face)
+     (import_declaration "import" @font-lock-keyword-face))
 
    :feature 'number
    :language 'cue
@@ -105,7 +119,13 @@
 
    :feature 'type
    :language 'cue
-   '((primitive_type) @font-lock-type-face)))
+   '((primitive_type) @font-lock-type-face)
+
+   :feature 'variable
+   :language 'cue
+   '((binary_expression
+      left: (identifier) @font-lock-variable-use-face
+      right: (identifier) @font-lock-variable-use-face))))
 
 ;;;###autoload
 (define-derived-mode cue-ts-mode prog-mode "Cue"
@@ -119,8 +139,8 @@
     (setq-local treesit-font-lock-feature-list
 		'((comment)
 		  (keyword string type)
-		  (constant number)
-		  (bracket delimiter error function operator)))
+		  (attributes builtin constant number)
+		  (bracket delimiter error function operator variable)))
     (setq-local treesit-font-lock-settings
 		cue-ts-mode--font-lock-settings)
     (setq-local treesit-simple-indent-rules
