@@ -52,6 +52,8 @@
      ((node-is ")") parent-bol 0)
      ((node-is "]") parent-bol 0)
      ((node-is "}") parent-bol 0)
+     ((parent-is "list_lit") parent-bol cue-ts-mode-indent-offset)
+     ((parent-is "string") parent-bol cue-ts-mode-indent-offset)
      ((parent-is "struct_lit") parent-bol cue-ts-mode-indent-offset)
      (no-node parent-bol 0))))
 
