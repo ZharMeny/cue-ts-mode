@@ -37,6 +37,10 @@
   :safe 'integerp
   :group 'cue)
 
+(defvar cue-ts-mode--brackets
+  '("(" ")" "[" "]" "{" "}")
+  "Cue brackets for tree-sitter font-locking.")
+
 (defvar cue-ts-mode--operators
   '("!" "!=" "!~" "&" "&&" "*" "+" "-" "..." "/" ":"
     "<" "<=" "=" "==" "=~" ">" ">=" "?" "|" "||")
@@ -55,7 +59,7 @@
   (treesit-font-lock-rules
    :feature 'bracket
    :language 'cue
-   '((["(" ")" "{" "}" "[" "]"]) @font-lock-bracket-face)
+   `(([,@cue-ts-mode--brackets]) @font-lock-bracket-face)
 
    :feature 'comment
    :language 'cue
