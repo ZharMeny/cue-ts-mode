@@ -89,22 +89,11 @@
    :override t
    '((ERROR) @font-lock-warning-face)
 
-   ;; Breaks string font-locking??
-   ;; :feature 'escape
-   ;; :language 'cue
-   ;; :override t
-   ;; '([(escape_char) (escape_unicode)] @font-lock-escape-face)
-
    :feature 'function
    :language 'cue
    '([(call_expression
        function: (selector_expression
 		  (identifier) @font-lock-function-call-face))])
-
-   :feature 'keyword
-   :language 'cue
-   '(([(identifier) (package_clause)] @font-lock-keyword-face)
-     (import_declaration "import" @font-lock-keyword-face))
 
    :feature 'number
    :language 'cue
@@ -116,7 +105,21 @@
 
    :feature 'string
    :language 'cue
+   :override t
    '((string) @font-lock-string-face)
+
+   :feature 'escape
+   :language 'cue
+   :override t
+   '([(escape_byte) (escape_char) (escape_unicode)]
+     @font-lock-escape-face)
+
+   ;; Must be under 'string to font-lock string interpolation
+   :feature 'keyword
+   :language 'cue
+   :override t
+   '(([(identifier) (package_clause)] @font-lock-keyword-face)
+     (import_declaration "import" @font-lock-keyword-face))
 
    :feature 'type
    :language 'cue
@@ -140,7 +143,7 @@
     (setq-local treesit-font-lock-feature-list
 		'((comment)
 		  (keyword string type)
-		  (attributes builtin constant number)
+		  (attributes builtin constant escape number)
 		  (bracket delimiter error function operator variable)))
     (setq-local treesit-font-lock-settings
 		cue-ts-mode--font-lock-settings)
