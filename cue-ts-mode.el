@@ -32,7 +32,7 @@
 
 (defcustom cue-ts-mode-indent-offset 8
   "Number of spaces for each indentation step in `cue-ts-mode'."
-  :version "0.1.0"
+  :package-version "0.1.0"
   :type 'integer
   :safe 'integerp
   :group 'cue)
