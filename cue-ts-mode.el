@@ -84,30 +84,30 @@
    :feature 'function
    :language 'cue
    :override t	; overriding 'keyword
-   '([(call_expression
-       function: (selector_expression
-		  (identifier) @font-lock-function-call-face))])
+   '((call_expression
+      function: (selector_expression
+		 (identifier) @font-lock-function-call-face)))
 
    :feature 'variable-name
    :language 'cue
    :override t	; overriding 'keyword
-   '(([(label [(identifier) @font-lock-variable-name-face
-	       (optional (identifier) @font-lock-variable-name-face)
-	       (required (identifier) @font-lock-variable-name-face)])
-       (source_file alias:
-		    (identifier) @font-lock-variable-name-face
-		    :anchor
-		    (identifier) @font-lock-variable-name-face)]))
+   '((label [(identifier) @font-lock-variable-name-face
+	     (optional (identifier) @font-lock-variable-name-face)
+	     (required (identifier) @font-lock-variable-name-face)])
+     (source_file alias:
+		  (identifier) @font-lock-variable-name-face
+		  :anchor
+		  (identifier) @font-lock-variable-name-face))
 
    :feature 'variable-use
    :language 'cue
    :override t	; overriding 'keyword
-   '([(binary_expression (identifier) @font-lock-variable-use-face)
-      (unary_expression (identifier) @font-lock-variable-use-face)])
+   '((binary_expression (identifier) @font-lock-variable-use-face)
+     (unary_expression (identifier) @font-lock-variable-use-face))
 
    :feature 'bracket
    :language 'cue
-   `(([,@cue-ts-mode--brackets]) @font-lock-bracket-face)
+   `([,@cue-ts-mode--brackets] @font-lock-bracket-face)
 
    :feature 'builtin
    :language 'cue
@@ -119,19 +119,19 @@
 
    :feature 'constant
    :language 'cue
-   '(([(boolean) (bottom) (null) (top)]) @font-lock-constant-face)
+   '([(boolean) (bottom) (null) (top)] @font-lock-constant-face)
 
    :feature 'delimiter
    :language 'cue
-   '((["," "."]) @font-lock-delimiter-face)
+   '(["," "."] @font-lock-delimiter-face)
 
    :feature 'number
    :language 'cue
-   '(([(float) (number)]) @font-lock-number-face)
+   '([(float) (number)] @font-lock-number-face)
 
    :feature 'operator
    :language 'cue
-   `(([,@cue-ts-mode--operators]) @font-lock-operator-face)
+   `([,@cue-ts-mode--operators] @font-lock-operator-face)
 
    :feature 'type
    :language 'cue
