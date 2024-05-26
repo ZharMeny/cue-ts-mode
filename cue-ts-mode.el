@@ -73,37 +73,15 @@
    :feature 'keyword
    :language 'cue
    :override t	; overriding 'string
-   '(([(identifier) (package_clause)] @font-lock-keyword-face)
-     (import_declaration "import" @font-lock-keyword-face))
+   '((for_clause ["for" "in"] @font-lock-keyword-face)
+     (guard_clause "if" @font-lock-keyword-face)
+     (import_declaration "import" @font-lock-keyword-face)
+     (let_clause "let" @font-lock-keyword-face)
+     (package_clause "package" @font-lock-keyword-face))
 
    :feature 'attribute
    :language 'cue
-   :override t	; overriding 'keyword
    '((attribute :anchor (identifier) @font-lock-preprocessor-face))
-
-   :feature 'function
-   :language 'cue
-   :override t	; overriding 'keyword
-   '((call_expression
-      function: (selector_expression
-		 (identifier) @font-lock-function-call-face)))
-
-   :feature 'variable-name
-   :language 'cue
-   :override t	; overriding 'keyword
-   '((label [(identifier) @font-lock-variable-name-face
-	     (optional (identifier) @font-lock-variable-name-face)
-	     (required (identifier) @font-lock-variable-name-face)])
-     (source_file alias:
-		  (identifier) @font-lock-variable-name-face
-		  :anchor
-		  (identifier) @font-lock-variable-name-face))
-
-   :feature 'variable-use
-   :language 'cue
-   :override t	; overriding 'keyword
-   '((binary_expression (identifier) @font-lock-variable-use-face)
-     (unary_expression (identifier) @font-lock-variable-use-face))
 
    :feature 'bracket
    :language 'cue
@@ -125,6 +103,12 @@
    :language 'cue
    '(["," "."] @font-lock-delimiter-face)
 
+   :feature 'function
+   :language 'cue
+   '((call_expression
+      function: (selector_expression
+		 (identifier) @font-lock-function-call-face)))
+
    :feature 'number
    :language 'cue
    '([(float) (number)] @font-lock-number-face)
@@ -136,6 +120,21 @@
    :feature 'type
    :language 'cue
    '((primitive_type) @font-lock-type-face)
+
+   :feature 'variable-name
+   :language 'cue
+   '((label [(identifier) @font-lock-variable-name-face
+	     (optional (identifier) @font-lock-variable-name-face)
+	     (required (identifier) @font-lock-variable-name-face)])
+     (source_file alias:
+		  (identifier) @font-lock-variable-name-face
+		  :anchor
+		  (identifier) @font-lock-variable-name-face))
+
+   :feature 'variable-use
+   :language 'cue
+   '((binary_expression (identifier) @font-lock-variable-use-face)
+     (unary_expression (identifier) @font-lock-variable-use-face))
 
    :feature 'error
    :language 'cue
