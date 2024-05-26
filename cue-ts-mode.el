@@ -88,6 +88,23 @@
        function: (selector_expression
 		  (identifier) @font-lock-function-call-face))])
 
+   :feature 'variable-name
+   :language 'cue
+   :override t	; overriding 'keyword
+   '(([(label [(identifier) @font-lock-variable-name-face
+	       (optional (identifier) @font-lock-variable-name-face)
+	       (required (identifier) @font-lock-variable-name-face)])
+       (source_file alias:
+		    (identifier) @font-lock-variable-name-face
+		    :anchor
+		    (identifier) @font-lock-variable-name-face)]))
+
+   :feature 'variable-use
+   :language 'cue
+   :override t	; overriding 'keyword
+   '([(binary_expression (identifier) @font-lock-variable-use-face)
+      (unary_expression (identifier) @font-lock-variable-use-face)])
+
    :feature 'bracket
    :language 'cue
    `(([,@cue-ts-mode--brackets]) @font-lock-bracket-face)
@@ -120,12 +137,6 @@
    :language 'cue
    '((primitive_type) @font-lock-type-face)
 
-   :feature 'variable
-   :language 'cue
-   '((binary_expression
-      left: (identifier) @font-lock-variable-use-face
-      right: (identifier) @font-lock-variable-use-face))
-
    :feature 'error
    :language 'cue
    :override t
@@ -144,7 +155,8 @@
 		'((comment)
 		  (keyword string type)
 		  (attribute builtin constant escape number)
-		  (bracket delimiter error function operator variable)))
+		  (bracket delimiter error function operator
+			   variable-name variable-use)))
     (setq-local treesit-font-lock-settings
 		cue-ts-mode--font-lock-settings)
     (setq-local treesit-simple-indent-rules
