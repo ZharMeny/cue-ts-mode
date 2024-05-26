@@ -60,10 +60,6 @@
 
 (defvar cue-ts-mode--font-lock-settings
   (treesit-font-lock-rules
-   :feature 'attributes
-   :language 'cue
-   '((attribute :anchor (identifier) @font-lock-preprocessor-face))
-
    :feature 'bracket
    :language 'cue
    `(([,@cue-ts-mode--brackets]) @font-lock-bracket-face)
@@ -121,6 +117,12 @@
    '(([(identifier) (package_clause)] @font-lock-keyword-face)
      (import_declaration "import" @font-lock-keyword-face))
 
+   ;; Must be under 'keyword to work
+   :feature 'attribute
+   :language 'cue
+   :override t
+   '((attribute :anchor (identifier) @font-lock-preprocessor-face))
+
    :feature 'type
    :language 'cue
    '((primitive_type) @font-lock-type-face)
@@ -143,7 +145,7 @@
     (setq-local treesit-font-lock-feature-list
 		'((comment)
 		  (keyword string type)
-		  (attributes builtin constant escape number)
+		  (attribute builtin constant escape number)
 		  (bracket delimiter error function operator variable)))
     (setq-local treesit-font-lock-settings
 		cue-ts-mode--font-lock-settings)
