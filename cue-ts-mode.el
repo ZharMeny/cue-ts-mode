@@ -76,8 +76,12 @@
    '((for_clause ["for" "in"] @font-lock-keyword-face)
      (guard_clause "if" @font-lock-keyword-face)
      (import_declaration "import" @font-lock-keyword-face)
+     (interpolation (identifier) @font-lock-keyword-face)
      (let_clause "let" @font-lock-keyword-face)
-     (package_clause "package" @font-lock-keyword-face))
+     (package_clause "package" @font-lock-keyword-face)
+     (raw_interpolation
+      [(identifier) @font-lock-keyword-face
+       (selector_expression (identifier) @font-lock-keyword-face)]))
 
    :feature 'attribute
    :language 'cue
