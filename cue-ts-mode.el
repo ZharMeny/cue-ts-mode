@@ -123,9 +123,11 @@
 
    :feature 'variable-name
    :language 'cue
-   '((label [(identifier) @font-lock-variable-name-face
+   '((for_clause "for" :anchor (identifier) @font-lock-variable-name-face)
+     (label [(identifier) @font-lock-variable-name-face
 	     (optional (identifier) @font-lock-variable-name-face)
 	     (required (identifier) @font-lock-variable-name-face)])
+     (let_clause left: (identifier) @font-lock-variable-name-face)
      (source_file alias:
 		  (identifier) @font-lock-variable-name-face
 		  :anchor
@@ -134,6 +136,7 @@
    :feature 'variable-use
    :language 'cue
    '((binary_expression (identifier) @font-lock-variable-use-face)
+     (for_clause "in" :anchor (identifier) @font-lock-variable-use-face)
      (unary_expression (identifier) @font-lock-variable-use-face))
 
    :feature 'error
