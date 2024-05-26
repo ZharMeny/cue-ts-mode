@@ -153,9 +153,9 @@
     (setq-local treesit-font-lock-feature-list
 		'((comment)
 		  (keyword string type)
-		  (attribute builtin constant escape number)
-		  (bracket delimiter error function operator
-			   variable-name variable-use)))
+		  (attribute builtin constant escape number
+			     variable-name variable-use)
+		  (bracket delimiter error function operator)))
     (setq-local treesit-font-lock-settings
 		cue-ts-mode--font-lock-settings)
     (setq-local treesit-simple-indent-rules
