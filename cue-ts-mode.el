@@ -87,6 +87,7 @@
 
    :feature 'function
    :language 'cue
+   :override t
    '([(call_expression
        function: (selector_expression
 		  (identifier) @font-lock-function-call-face))])
