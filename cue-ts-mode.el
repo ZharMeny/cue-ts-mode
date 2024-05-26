@@ -60,6 +60,34 @@
 
 (defvar cue-ts-mode--font-lock-settings
   (treesit-font-lock-rules
+   :feature 'string
+   :language 'cue
+   '((string) @font-lock-string-face)
+
+   :feature 'escape
+   :language 'cue
+   :override t	; overriding 'string
+   '([(escape_byte) (escape_char) (escape_unicode)]
+     @font-lock-escape-face)
+
+   :feature 'keyword
+   :language 'cue
+   :override t	; overriding 'string
+   '(([(identifier) (package_clause)] @font-lock-keyword-face)
+     (import_declaration "import" @font-lock-keyword-face))
+
+   :feature 'attribute
+   :language 'cue
+   :override t	; overriding 'keyword
+   '((attribute :anchor (identifier) @font-lock-preprocessor-face))
+
+   :feature 'function
+   :language 'cue
+   :override t	; overriding 'keyword
+   '([(call_expression
+       function: (selector_expression
+		  (identifier) @font-lock-function-call-face))])
+
    :feature 'bracket
    :language 'cue
    `(([,@cue-ts-mode--brackets]) @font-lock-bracket-face)
@@ -80,18 +108,6 @@
    :language 'cue
    '((["," "."]) @font-lock-delimiter-face)
 
-   :feature 'error
-   :language 'cue
-   :override t
-   '((ERROR) @font-lock-warning-face)
-
-   :feature 'function
-   :language 'cue
-   :override t
-   '([(call_expression
-       function: (selector_expression
-		  (identifier) @font-lock-function-call-face))])
-
    :feature 'number
    :language 'cue
    '(([(float) (number)]) @font-lock-number-face)
@@ -99,30 +115,6 @@
    :feature 'operator
    :language 'cue
    `(([,@cue-ts-mode--operators]) @font-lock-operator-face)
-
-   :feature 'string
-   :language 'cue
-   :override t
-   '((string) @font-lock-string-face)
-
-   :feature 'escape
-   :language 'cue
-   :override t
-   '([(escape_byte) (escape_char) (escape_unicode)]
-     @font-lock-escape-face)
-
-   ;; Must be under 'string to font-lock string interpolation
-   :feature 'keyword
-   :language 'cue
-   :override t
-   '(([(identifier) (package_clause)] @font-lock-keyword-face)
-     (import_declaration "import" @font-lock-keyword-face))
-
-   ;; Must be under 'keyword to work
-   :feature 'attribute
-   :language 'cue
-   :override t
-   '((attribute :anchor (identifier) @font-lock-preprocessor-face))
 
    :feature 'type
    :language 'cue
@@ -132,7 +124,12 @@
    :language 'cue
    '((binary_expression
       left: (identifier) @font-lock-variable-use-face
-      right: (identifier) @font-lock-variable-use-face))))
+      right: (identifier) @font-lock-variable-use-face))
+
+   :feature 'error
+   :language 'cue
+   :override t
+   '((ERROR) @font-lock-warning-face)))
 
 ;;;###autoload
 (define-derived-mode cue-ts-mode prog-mode "Cue"
