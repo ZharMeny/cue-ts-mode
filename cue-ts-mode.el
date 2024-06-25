@@ -65,13 +65,13 @@
 
    :feature 'escape
    :language 'cue
-   :override t	; overriding 'string
+   :override t ; overriding 'string
    '([(escape_byte) (escape_char) (escape_unicode)]
      @font-lock-escape-face)
 
    :feature 'keyword
    :language 'cue
-   :override t	; overriding 'string
+   :override t ; overriding 'string
    '((for_clause ["for" "in"] @font-lock-keyword-face)
      (guard_clause "if" @font-lock-keyword-face)
      (import_declaration "import" @font-lock-keyword-face)
@@ -110,7 +110,7 @@
    :language 'cue
    '((call_expression
       function: (selector_expression
-		 (identifier) @font-lock-function-call-face)))
+                 (identifier) @font-lock-function-call-face)))
 
    :feature 'number
    :language 'cue
@@ -128,13 +128,13 @@
    :language 'cue
    '((for_clause "for" :anchor (identifier) @font-lock-variable-name-face)
      (label [(identifier) @font-lock-variable-name-face
-	     (optional (identifier) @font-lock-variable-name-face)
-	     (required (identifier) @font-lock-variable-name-face)])
+             (optional (identifier) @font-lock-variable-name-face)
+             (required (identifier) @font-lock-variable-name-face)])
      (let_clause left: (identifier) @font-lock-variable-name-face)
      (source_file alias:
-		  (identifier) @font-lock-variable-name-face
-		  :anchor
-		  (identifier) @font-lock-variable-name-face))
+                  (identifier) @font-lock-variable-name-face
+                  :anchor
+                  (identifier) @font-lock-variable-name-face))
 
    :feature 'variable-use
    :language 'cue
@@ -159,15 +159,15 @@
     (setq-local comment-start "// ")
     (setq-local comment-start-skip "//\\s-*")
     (setq-local treesit-font-lock-feature-list
-		'((comment)
-		  (keyword string type)
-		  (attribute builtin constant escape number
-			     variable-name variable-use)
-		  (bracket delimiter error function operator)))
+                '((comment)
+                  (keyword string type)
+                  (attribute builtin constant escape number
+                             variable-name variable-use)
+                  (bracket delimiter error function operator)))
     (setq-local treesit-font-lock-settings
-		cue-ts-mode--font-lock-settings)
+                cue-ts-mode--font-lock-settings)
     (setq-local treesit-simple-indent-rules
-		cue-ts-mode--indent-rules)
+                cue-ts-mode--indent-rules)
     (treesit-major-mode-setup)))
 
 ;;;###autoload
