@@ -140,7 +140,9 @@
    :language 'cue
    '((binary_expression (identifier) @font-lock-variable-use-face)
      (for_clause "in" :anchor (identifier) @font-lock-variable-use-face)
-     (unary_expression (identifier) @font-lock-variable-use-face))
+     (list_lit (identifier) @font-lock-variable-use-face)
+     (unary_expression (identifier) @font-lock-variable-use-face)
+     (selector_expression (identifier) @font-lock-variable-use-face))
 
    :feature 'error
    :language 'cue
