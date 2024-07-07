@@ -1,7 +1,7 @@
 #+title: cue-ts-mode
 #+author: ZharMeny
 
-=cue-ts-mode= is an Emacs major mode that provides font-lock and
+~cue-ts-mode~ is an Emacs major mode that provides font-lock and
 indentation support for the CUE Data Constraint Language, powered by
 the =tree-sitter-cue= grammar.
 
@@ -19,14 +19,14 @@ Archives, so you have to install it from source for the time being.
 #+end_src
 
 ** Manually
-First, put =cue-ts-mode.el= somewhere on your =load-path=, for example
+First, put =cue-ts-mode.el= somewhere on your ~load-path~, for example
 if you put =cue-ts-mode.el= in =~/elisp/cue-ts-mode/=, then in your
 =init.el= you should add the following:
 #+begin_src elisp
 (add-to-list 'load-path "~/elisp/cue-ts-mode/")
 #+end_src
 
-Second, you can byte-compile =cue-ts-mode= by running =make= in the
+Second, you can byte-compile ~cue-ts-mode~ by running ~make~ in the
 cue-ts-mode directory, though that is not strictly necessary.
 
 * Tree-sitter setup
@@ -35,11 +35,11 @@ Your distribution of choice should already provide pre-built
 Emacs with tree-sitter enabled, otherwise you can build it from
 source, preferably the =emacs-29= branch.  To check if your Emacs
 supports tree-sitter, evaluate the following code in an =IELM= buffer
-or with =M-:=:
+or with ~M-:~:
 #+begin_src elisp
 (treesit-available-p)
 #+end_src
-If you see =t= in your minibuffer afterwards, then your Emacs should
+If you see ~t~ in your minibuffer afterwards, then your Emacs should
 have tree-sitter support baked in.
 
 ** Tree-sitter grammar
@@ -48,6 +48,6 @@ Many distributions package tree-sitter grammars in their package
 repositories, look for something along the lines of =tree-sitter-cue=.
 If the version of the grammar packaged by your distribution is out of
 date, you may see messages in the =*Warnings*= buffer and have no
-syntax highligting in =cue-ts-mode= buffers.  If this happens to you,
-it is recommended to install the grammar with =M-x
-treesit-install-language-grammar= instead.
+syntax highligting in ~cue-ts-mode~ buffers.  If this happens to you,
+it is recommended to install the grammar with ~M-x
+treesit-install-language-grammar~ instead.
