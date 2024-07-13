@@ -171,7 +171,7 @@
     (treesit-major-mode-setup)))
 
 ;;;###autoload
-(if (treesit-ready-p 'cue)
+(if (treesit-ready-p 'cue t)
     (add-to-list 'auto-mode-alist '("\\.cue\\'" . cue-ts-mode)))
 
 (provide 'cue-ts-mode)
