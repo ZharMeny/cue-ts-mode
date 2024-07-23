@@ -157,21 +157,17 @@
   :group 'cue
   (when (treesit-ready-p 'cue)
     (treesit-parser-create 'cue)
-    (setq-local comment-end "")
-    (setq-local comment-start "// ")
-    (setq-local comment-start-skip "//\\s-*")
-    (setq-local treesit-font-lock-feature-list
+    (setq-local comment-end ""
+                comment-start "// "
+                comment-start-skip "//\\s-*"
+                treesit-font-lock-feature-list
                 '((comment)
                   (keyword string type)
-                  (attribute builtin constant escape number
-                             variable-name)
-                  (bracket delimiter error function operator
-                           variable-use)))
-    (setq-local treesit-font-lock-settings
-                cue-ts-mode--font-lock-settings)
-    (setq-local treesit-simple-indent-rules
-                cue-ts-mode--indent-rules)
-    (treesit-major-mode-setup)))
+                  (attribute builtin constant escape number variable-name)
+                  (bracket delimiter error function operator variable-use))
+                treesit-font-lock-settings cue-ts-mode--font-lock-settings
+                treesit-simple-indent-rules cue-ts-mode--indent-rules))
+  (treesit-major-mode-setup))
 
 ;;;###autoload
 (if (treesit-ready-p 'cue t)
