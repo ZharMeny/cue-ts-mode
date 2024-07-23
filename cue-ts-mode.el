@@ -32,9 +32,7 @@
 
 (defcustom cue-ts-mode-indent-offset 8
   "Number of spaces for each indentation step in `cue-ts-mode'."
-  :type 'integer
-  :safe 'integerp
-  :group 'cue)
+  :type 'integer :safe 'integerp :group 'cue)
 
 (defvar cue-ts-mode--brackets
   '("(" ")" "[" "]" "{" "}")
@@ -46,32 +44,28 @@
   "Cue operators for tree-sitter font-locking.")
 
 (defvar cue-ts-mode--indent-rules
-  '((cue
-     ((parent-is "source_file") column-0 0)
-     ((node-is ")") parent-bol 0)
-     ((node-is "]") parent-bol 0)
-     ((node-is "}") parent-bol 0)
-     ((parent-is "arguments") parent-bol cue-ts-mode-indent-offset)
-     ((parent-is "list_lit") parent-bol cue-ts-mode-indent-offset)
-     ((parent-is "string") parent-bol cue-ts-mode-indent-offset)
-     ((parent-is "struct_lit") parent-bol cue-ts-mode-indent-offset)
-     (no-node parent-bol 0))))
+  '((cue ((parent-is "source_file") column-0 0)
+         ((node-is ")") parent-bol 0)
+         ((node-is "]") parent-bol 0)
+         ((node-is "}") parent-bol 0)
+         ((parent-is "arguments") parent-bol cue-ts-mode-indent-offset)
+         ((parent-is "list_lit") parent-bol cue-ts-mode-indent-offset)
+         ((parent-is "string") parent-bol cue-ts-mode-indent-offset)
+         ((parent-is "struct_lit") parent-bol cue-ts-mode-indent-offset)
+         (no-node parent-bol 0))))
 
 (defvar cue-ts-mode--font-lock-settings
   (treesit-font-lock-rules
    :feature 'string
    :language 'cue
    '((string) @font-lock-string-face)
-
    :feature 'escape
    :language 'cue
-   :override t ; overriding 'string
-   '([(escape_byte) (escape_char) (escape_unicode)]
-     @font-lock-escape-face)
-
+   :override t
+   '([(escape_byte) (escape_char) (escape_unicode)] @font-lock-escape-face)
    :feature 'keyword
    :language 'cue
-   :override t ; overriding 'string
+   :override t
    '((for_clause ["for" "in"] @font-lock-keyword-face)
      (guard_clause "if" @font-lock-keyword-face)
      (import_declaration "import" @font-lock-keyword-face)
@@ -81,49 +75,38 @@
      (raw_interpolation
       [(identifier) @font-lock-keyword-face
        (selector_expression (identifier) @font-lock-keyword-face)]))
-
    :feature 'attribute
    :language 'cue
    '((attribute :anchor (identifier) @font-lock-preprocessor-face))
-
    :feature 'bracket
    :language 'cue
    `([,@cue-ts-mode--brackets] @font-lock-bracket-face)
-
    :feature 'builtin
    :language 'cue
    '((builtin_function) @font-lock-builtin-face)
-
    :feature 'comment
    :language 'cue
    '((comment) @font-lock-comment-face)
-
    :feature 'constant
    :language 'cue
    '([(boolean) (bottom) (null) (top)] @font-lock-constant-face)
-
    :feature 'delimiter
    :language 'cue
    '(["," "."] @font-lock-delimiter-face)
-
    :feature 'function
    :language 'cue
    '((call_expression
-      function: (selector_expression
-                 (identifier) @font-lock-function-call-face)))
-
+      function:
+      (selector_expression (identifier) @font-lock-function-call-face)))
    :feature 'number
    :language 'cue
    '([(float) (number)] @font-lock-number-face)
-
    :feature 'operator
    :language 'cue
    `([,@cue-ts-mode--operators] @font-lock-operator-face)
-
    :feature 'type
    :language 'cue
    '((primitive_type) @font-lock-type-face)
-
    :feature 'variable-name
    :language 'cue
    '((for_clause "for" :anchor (identifier) @font-lock-variable-name-face)
