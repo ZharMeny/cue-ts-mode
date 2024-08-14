@@ -1,5 +1,4 @@
 #+title: cue-ts-mode
-#+author: ZharMeny
 
 ~cue-ts-mode~ is an Emacs major mode that provides font-lock and
 indentation support for the CUE Data Constraint Language, powered by
@@ -8,51 +7,32 @@ the =tree-sitter-cue= grammar.
 This major mode is still in-progress, any feedback and contributions
 are welcome.
 
-* Installation
-The package is currently not available on any Emacs Lisp Package
-Archives, so you have to install it from source for the time being.
-
-** Package-VC
-#+begin_src elisp
-(package-vc-install
- '(cue-ts-mode :url "https://github.com/ZharMeny/cue-ts-mode"))
-#+end_src
-
-** Manually
-First, clone this repository, you can do it like this:
-#+begin_src shell
-git clone https://github.com/ZharMeny/cue-ts-mode.git
-#+end_src
-
-Second, byte-compile =cue-ts-mode.el= by running ~make~ in the cloned
-repository, or by running ~byte-compile-file~ inside Emacs.
-
-Third, put =cue-ts-mode.el= and =cue-ts-mode.elc= somewhere in your
-~load-path~, for example if you them in =~/elisp/cue-ts-mode/=, then
-in your =init.el= you should add the following:
-#+begin_src elisp
-(add-to-list 'load-path "~/elisp/cue-ts-mode/")
-#+end_src
-
 * Tree-sitter setup
-This package requires GNU Emacs 29, built with tree-sitter support.
-Your distribution of choice should already provide pre-built Emacs
-with tree-sitter enabled, otherwise you can build it from source,
-preferably the =emacs-29= branch.  To check if your Emacs supports
-tree-sitter, evaluate the following code in an =*ielm*= buffer or with
-~M-:~:
-#+begin_src elisp
+This package requires Emacs 29 or later, built with tree-sitter
+support.  Your distribution of choice should already provide pre-built
+Emacs binaries with tree-sitter support built-in (otherwise, you can
+build it from source, preferably from the =emacs-29= branch).  To
+check if your Emacs supports tree-sitter, evaluate the following:
+#+begin_src emacs-lisp
 (treesit-available-p)
 #+end_src
-If you see ~t~ in your echo area afterwards, then your Emacs should
-have tree-sitter support baked in.
+If it returns ~t~, then your Emacs should have tree-sitter support
+built-in.
 
 ** Tree-sitter grammar
 You need to install a tree-sitter grammar for this package to work.
-Many distributions package tree-sitter grammars in their package
-repositories, look for something along the lines of =tree-sitter-cue=.
-If the version of the grammar packaged by your distribution is out of
-date, you may see messages in the =*Warnings*= buffer and have no
-syntax highligting in ~cue-ts-mode~ buffers.  If this happens to you,
-it is recommended to install the grammar with
-~M-x treesit-install-language-grammar~ instead.
+You can do so with ~treesit-install-language-grammar~:
+#+begin_src emacs-lisp
+(cl-pushnew '(cue "https://github.com/eonpatapon/tree-sitter-cue")
+            treesit-language-source-alist :test 'equal)
+
+(treesit-install-language-grammar 'cue)
+#+end_src
+
+* Installation
+#+begin_src emacs-lisp
+(package-vc-install "https://github.com/ZharMeny/cue-ts-mode.git")
+;; Since Emacs 30, use-package has the :vc keyword
+(use-package cue-ts-mode
+  :vc (:url "https://github.com/ZharMeny/cue-ts-mode.git" :rev :newest))
+#+end_src
