@@ -2,7 +2,7 @@
 
 ;; Homepage: https://github.com/ZharMeny/cue-ts-mode
 ;; Package-Requires: ((emacs "29.1"))
-;; Package-Version: 0.1.0
+;; Package-Version: 0.2.0
 ;; SPDX-License-Identifier: BlueOak-1.0.0
 
 ;; This file is not part of GNU Emacs.
