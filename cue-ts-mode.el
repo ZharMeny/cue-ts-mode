@@ -20,15 +20,6 @@
   "Number of spaces for each indentation step in `cue-ts-mode'."
   :type 'integer :safe 'integerp :group 'cue)
 
-(defvar cue-ts-mode--brackets
-  '("(" ")" "[" "]" "{" "}")
-  "Cue brackets for tree-sitter font-locking.")
-
-(defvar cue-ts-mode--operators
-  '("!" "!=" "!~" "&" "&&" "*" "+" "-" "..." "/" ":"
-    "<" "<=" "=" "==" "=~" ">" ">=" "?" "|" "||")
-  "Cue operators for tree-sitter font-locking.")
-
 (defvar cue-ts-mode--indent-rules
   '((cue ((parent-is "source_file") column-0 0)
          ((node-is ")") parent-bol 0)
@@ -66,7 +57,7 @@
    '((attribute :anchor (identifier) @font-lock-preprocessor-face))
    :feature 'bracket
    :language 'cue
-   `([,@cue-ts-mode--brackets] @font-lock-bracket-face)
+   '(["(" ")" "[" "]" "{" "}"] @font-lock-bracket-face)
    :feature 'builtin
    :language 'cue
    '((builtin_function) @font-lock-builtin-face)
@@ -89,7 +80,9 @@
    '([(float) (number)] @font-lock-number-face)
    :feature 'operator
    :language 'cue
-   `([,@cue-ts-mode--operators] @font-lock-operator-face)
+   '(["!" "!=" "!~" "&" "&&" "*" "+" "-" "..." "/" ":"
+      "<" "<=" "=" "==" "=~" ">" ">=" "?" "|" "||"]
+     @font-lock-operator-face)
    :feature 'type
    :language 'cue
    '((primitive_type) @font-lock-type-face)
