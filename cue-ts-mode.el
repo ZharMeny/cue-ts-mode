@@ -88,7 +88,7 @@
    '((primitive_type) @font-lock-type-face)
    :feature 'variable-name
    :language 'cue
-   '((for_clause "for" :anchor (identifier) @font-lock-variable-name-face)
+   '((for_clause "for" (identifier) @font-lock-variable-name-face)
      (label [(identifier) @font-lock-variable-name-face
              (optional (identifier) @font-lock-variable-name-face)
              (required (identifier) @font-lock-variable-name-face)])
