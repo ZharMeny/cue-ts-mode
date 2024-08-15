@@ -90,25 +90,19 @@
    :feature 'variable-name
    :language 'cue
    '((for_clause "for" (identifier) @font-lock-variable-name-face)
-     (label [(identifier) @font-lock-variable-name-face
-             (optional (identifier) @font-lock-variable-name-face)
-             (required (identifier) @font-lock-variable-name-face)])
+     (label (identifier) @font-lock-variable-name-face)
      (let_clause left: (identifier) @font-lock-variable-name-face)
-     (source_file alias:
-                  (identifier) @font-lock-variable-name-face
-                  "="
-                  (identifier)))
+     (optional (identifier) @font-lock-variable-name-face)
+     (required (identifier) @font-lock-variable-name-face)
+     (source_file alias: (identifier) @font-lock-variable-name-face "="))
    :feature 'variable-use
    :language 'cue
    '((binary_expression (identifier) @font-lock-variable-use-face)
      (for_clause "in" :anchor (identifier) @font-lock-variable-use-face)
      (list_lit (identifier) @font-lock-variable-use-face)
-     (unary_expression (identifier) @font-lock-variable-use-face)
      (selector_expression (identifier) @font-lock-variable-use-face)
-     (source_file alias:
-                  (identifier)
-                  "="
-                  (identifier) @font-lock-variable-name-face))
+     (source_file alias: "=" (identifier) @font-lock-variable-name-face)
+     (unary_expression (identifier) @font-lock-variable-use-face))
    :feature 'error
    :language 'cue
    :override t
