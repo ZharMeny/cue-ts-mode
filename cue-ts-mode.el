@@ -123,9 +123,9 @@
     (setq-local comment-start "// ")
     (setq-local comment-start-skip "//\\s-*")
     (setq-local treesit-font-lock-feature-list
-                '((comment)
+                '((comment variable-name)
                   (keyword string type)
-                  (attribute builtin constant escape number variable-name)
+                  (attribute builtin constant escape number)
                   (bracket delimiter error function operator variable-use)))
     (setq-local treesit-font-lock-settings cue-ts-mode--font-lock-settings)
     (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules))
