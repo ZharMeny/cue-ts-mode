@@ -9,8 +9,8 @@
 
 ;;; Commentary:
 
-;; A major mode for editing Cue Data Constraint Language files, powered
-;; by tree-sitter.
+;; A major mode for editing the CUE data constraint language, powered by
+;; tree-sitter.
 
 ;;; Code:
 
@@ -121,8 +121,8 @@
    '((ERROR) @font-lock-warning-face)))
 
 ;;;###autoload
-(define-derived-mode cue-ts-mode prog-mode "Cue"
-  "Major mode for editing Cue Language files, powered by tree-sitter."
+(define-derived-mode cue-ts-mode prog-mode "CUE"
+  "Major mode for editing the CUE data constraint language, powered by tree-sitter."
   :group 'cue
   (when (treesit-ready-p 'cue)
     (treesit-parser-create 'cue)
