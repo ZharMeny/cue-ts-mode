@@ -20,6 +20,9 @@
   "Number of spaces for each indentation step in `cue-ts-mode'."
   :type 'integer :safe 'integerp :group 'cue)
 
+(defvar cue-ts-mode--relational-operators
+  '("!=" "<" "<=" ">" ">=" "=~" "!~"))
+
 (defvar cue-ts-mode--indent-rules
   '((cue ((parent-is "source_file") column-0 0)
          ((node-is ")") parent-bol 0)
@@ -70,7 +73,9 @@
    '([(boolean) (bottom) (null) (top)] @font-lock-constant-face)
    :feature 'delimiter
    :language 'cue
-   '(["," "."] @font-lock-delimiter-face)
+   '("," @font-lock-delimiter-face
+     (field ":" @font-lock-operator-face)
+     (selector_expression "." @font-lock-delimiter-face))
    :feature 'function
    :language 'cue
    '((call_expression
@@ -81,9 +86,18 @@
    '([(float) (number)] @font-lock-number-face)
    :feature 'operator
    :language 'cue
-   '(["!" "!=" "!~" "&" "&&" "*" "+" "-" "..." "/" ":"
-      "<" "<=" "=" "==" "=~" ">" ">=" "?" "|" "||"]
-     @font-lock-operator-face)
+   `((optional "?" @font-lock-operator-face)
+     (required "!" @font-lock-operator-face)
+     (source_file alias: "=" @font-lock-operator-face)
+     (binary_expression operator: ["&" "&&" "*" "+" "-" "/" "==" "|" "||"
+                                   ,@cue-ts-mode--relational-operators]
+                        @font-lock-operator-face)
+     (unary_expression operator: ["!" "*" "+" "-"
+                                  ,@cue-ts-mode--relational-operators]
+                       @font-lock-operator-face))
+   :feature 'punctuation
+   :language 'cue
+   '((ellipsis) @font-lock-punctuation-face)
    :feature 'type
    :language 'cue
    '((primitive_type) @font-lock-type-face)
@@ -121,7 +135,8 @@
                 '((comment variable-name)
                   (keyword string type)
                   (attribute builtin constant escape number)
-                  (bracket delimiter error function operator variable-use)))
+                  ( bracket delimiter error function operator
+                    punctuation variable-use)))
     (setq-local treesit-font-lock-settings cue-ts-mode--font-lock-settings)
     (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules))
   (treesit-major-mode-setup))
