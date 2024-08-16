@@ -126,19 +126,20 @@
 (define-derived-mode cue-ts-mode prog-mode "CUE"
   "Major mode for editing the CUE data constraint language, powered by tree-sitter."
   :group 'cue
-  (when (treesit-ready-p 'cue)
-    (treesit-parser-create 'cue)
-    (setq-local comment-end "")
-    (setq-local comment-start "// ")
-    (setq-local comment-start-skip "//\\s-*")
-    (setq-local treesit-font-lock-feature-list
-                '((comment variable-name)
-                  (keyword string type)
-                  (attribute builtin constant escape number)
-                  ( bracket delimiter error function operator
-                    punctuation variable-use)))
-    (setq-local treesit-font-lock-settings cue-ts-mode--font-lock-settings)
-    (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules))
+  (unless (treesit-ready-p 'cue)
+    (error "Tree-sitter for CUE isn't available"))
+  (treesit-parser-create 'cue)
+  (setq-local comment-end "")
+  (setq-local comment-start "// ")
+  (setq-local comment-start-skip "//\\s-*")
+  (setq-local treesit-font-lock-feature-list
+              '((comment variable-name)
+                (keyword string type)
+                (attribute builtin constant escape number)
+                ( bracket delimiter error function operator
+                  punctuation variable-use)))
+  (setq-local treesit-font-lock-settings cue-ts-mode--font-lock-settings)
+  (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules)
   (treesit-major-mode-setup))
 
 ;;;###autoload
