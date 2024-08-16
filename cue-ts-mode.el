@@ -20,18 +20,6 @@
   "Number of spaces for each indentation step in `cue-ts-mode'."
   :type 'integer :safe 'integerp :group 'cue)
 
-(defvar cue-ts-mode--indent-rules
-  '((cue ((parent-is "source_file") column-0 0)
-         ((node-is ")") parent-bol 0)
-         ((node-is "]") parent-bol 0)
-         ((node-is "}") parent-bol 0)
-         ((parent-is "arguments") parent-bol cue-ts-mode-indent-offset)
-         ((parent-is "binary_expression") parent-bol 0)
-         ((parent-is "list_lit") parent-bol cue-ts-mode-indent-offset)
-         ((parent-is "string") parent-bol cue-ts-mode-indent-offset)
-         ((parent-is "struct_lit") parent-bol cue-ts-mode-indent-offset)
-         (no-node parent-bol 0))))
-
 (defvar cue-ts-mode--font-lock-feature-list
   '((comment variable-name)
     (keyword string type)
@@ -125,19 +113,31 @@
    :override t
    '((ERROR) @font-lock-warning-face)))
 
+(defvar cue-ts-mode--indent-rules
+  '((cue ((parent-is "source_file") column-0 0)
+         ((node-is ")") parent-bol 0)
+         ((node-is "]") parent-bol 0)
+         ((node-is "}") parent-bol 0)
+         ((parent-is "arguments") parent-bol cue-ts-mode-indent-offset)
+         ((parent-is "binary_expression") parent-bol 0)
+         ((parent-is "list_lit") parent-bol cue-ts-mode-indent-offset)
+         ((parent-is "string") parent-bol cue-ts-mode-indent-offset)
+         ((parent-is "struct_lit") parent-bol cue-ts-mode-indent-offset)
+         (no-node parent-bol 0))))
+
 ;;;###autoload
 (define-derived-mode cue-ts-mode prog-mode "CUE"
   "Major mode for editing the CUE data constraint language, powered by tree-sitter."
   :group 'cue
   (unless (treesit-ready-p 'cue)
     (error "Tree-sitter for CUE isn't available"))
-  (treesit-parser-create 'cue)
   (setq-local comment-end "")
   (setq-local comment-start "// ")
   (setq-local comment-start-skip "//\\s-*")
   (setq-local treesit-font-lock-feature-list cue-ts-mode--font-lock-feature-list)
   (setq-local treesit-font-lock-settings cue-ts-mode--font-lock-settings)
   (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules)
+  (treesit-parser-create 'cue)
   (treesit-major-mode-setup))
 
 ;;;###autoload
