@@ -65,7 +65,7 @@
    :feature 'delimiter
    :language 'cue
    '("," @font-lock-delimiter-face
-     (field ":" @font-lock-operator-face)
+     (field ":" @font-lock-delimiter-face)
      (selector_expression "." @font-lock-delimiter-face))
    :feature 'function
    :language 'cue
