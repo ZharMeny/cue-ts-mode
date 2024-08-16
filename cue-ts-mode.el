@@ -20,9 +20,6 @@
   "Number of spaces for each indentation step in `cue-ts-mode'."
   :type 'integer :safe 'integerp :group 'cue)
 
-(defvar cue-ts-mode--relational-operators
-  '("!=" "<" "<=" ">" ">=" "=~" "!~"))
-
 (defvar cue-ts-mode--indent-rules
   '((cue ((parent-is "source_file") column-0 0)
          ((node-is ")") parent-bol 0)
@@ -86,15 +83,15 @@
    '([(float) (number)] @font-lock-number-face)
    :feature 'operator
    :language 'cue
-   `((optional "?" @font-lock-operator-face)
-     (required "!" @font-lock-operator-face)
-     (source_file alias: "=" @font-lock-operator-face)
-     (binary_expression operator: ["&" "&&" "*" "+" "-" "/" "==" "|" "||"
-                                   ,@cue-ts-mode--relational-operators]
-                        @font-lock-operator-face)
-     (unary_expression operator: ["!" "*" "+" "-"
-                                  ,@cue-ts-mode--relational-operators]
-                       @font-lock-operator-face))
+   (let ((relational-operators '("!=" "<" "<=" ">" ">=" "=~" "!~")))
+     `((optional "?" @font-lock-operator-face)
+       (required "!" @font-lock-operator-face)
+       (source_file alias: "=" @font-lock-operator-face)
+       (binary_expression operator: ["&" "&&" "*" "+" "-" "/" "==" "|" "||"
+                                     ,@relational-operators]
+                          @font-lock-operator-face)
+       (unary_expression operator: ["!" "*" "+" "-" ,@relational-operators]
+                         @font-lock-operator-face)))
    :feature 'punctuation
    :language 'cue
    '((ellipsis) @font-lock-punctuation-face)
