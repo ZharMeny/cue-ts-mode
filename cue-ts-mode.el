@@ -32,6 +32,12 @@
          ((parent-is "struct_lit") parent-bol cue-ts-mode-indent-offset)
          (no-node parent-bol 0))))
 
+(defvar cue-ts-mode--font-lock-feature-list
+  '((comment variable-name)
+    (keyword string type)
+    (attribute builtin constant escape number)
+    (bracket delimiter error function operator punctuation variable-use)))
+
 (defvar cue-ts-mode--font-lock-settings
   (treesit-font-lock-rules
    :feature 'string
@@ -129,12 +135,7 @@
   (setq-local comment-end "")
   (setq-local comment-start "// ")
   (setq-local comment-start-skip "//\\s-*")
-  (setq-local treesit-font-lock-feature-list
-              '((comment variable-name)
-                (keyword string type)
-                (attribute builtin constant escape number)
-                ( bracket delimiter error function operator
-                  punctuation variable-use)))
+  (setq-local treesit-font-lock-feature-list cue-ts-mode--font-lock-feature-list)
   (setq-local treesit-font-lock-settings cue-ts-mode--font-lock-settings)
   (setq-local treesit-simple-indent-rules cue-ts-mode--indent-rules)
   (treesit-major-mode-setup))
