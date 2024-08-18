@@ -104,6 +104,7 @@
    :language 'cue
    '((binary_expression (identifier) @font-lock-variable-use-face)
      (for_clause "in" :anchor (identifier) @font-lock-variable-use-face)
+     (let_clause right: (identifier) @font-lock-variable-use-face)
      (list_lit (identifier) @font-lock-variable-use-face)
      (selector_expression (identifier) @font-lock-variable-use-face)
      (source_file alias: "=" (identifier) @font-lock-variable-name-face)
