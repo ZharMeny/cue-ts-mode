@@ -126,12 +126,65 @@
          ((parent-is "struct_lit") parent-bol cue-ts-mode-indent-offset)
          (no-node parent-bol 0))))
 
+(defvar cue-ts--flymake-proc nil)
+
+(defun cue-ts-flymake (report-fn &rest _args)
+  "CUE backend for Flymake.
+For what REPORT-FN means, see Info node `(flymake) Backend functions'."
+  (unless (executable-find "cue")
+    (error "Cannot find a suitable CUE interpreter"))
+  (if (process-live-p cue-ts--flymake-proc)
+      (kill-process cue-ts--flymake-proc))
+  (let ((source (current-buffer)))
+    (save-restriction
+      (widen)
+      (setq
+       cue-ts--flymake-proc
+       (make-process
+        :name "cue-ts-flymake" :noquery t :connection-type 'pipe
+        :buffer (generate-new-buffer " *cue-ts-flymake*")
+        :command '("cue" "vet")
+        :sentinel
+        (lambda (proc _event)
+          (when (memq (process-status proc) '(exit signal))
+            (unwind-protect
+                (if (with-current-buffer source (eq proc cue-ts--flymake-proc))
+                    (with-current-buffer (process-buffer proc)
+                      (goto-char (point-min))
+                      (cl-loop
+                       while (search-forward-regexp
+                              (rx (seq bol
+                                       (group (+ not-newline))
+                                       ":\n"
+                                       (* not-newline)
+                                       ".cue"
+                                       ":"
+                                       (group (+ digit))
+                                       ":"
+                                       (group (+ digit))
+                                       eol))
+                              nil t)
+                       for msg = (match-string 1)
+                       for (beg . end) = (flymake-diag-region
+                                          source
+                                          (string-to-number (match-string 2)))
+                       for type = :warning
+                       when (and beg end)
+                       collect (flymake-make-diagnostic source beg end type msg)
+                       into diags
+                       finally (funcall report-fn diags)))
+                  (flymake-log :warning "Canceling obsolete check %s" proc))
+              (kill-buffer (process-buffer proc)))))))
+      (process-send-region cue-ts--flymake-proc (point-min) (point-max))
+      (process-send-eof cue-ts--flymake-proc))))
+
 ;;;###autoload
 (define-derived-mode cue-ts-mode prog-mode "CUE"
   "Major mode for editing the CUE data constraint language, powered by tree-sitter."
   :group 'cue
   (unless (treesit-ready-p 'cue)
     (error "Tree-sitter for CUE isn't available"))
+  (add-hook 'flymake-diagnostic-functions #'cue-ts-flymake nil t)
   (setq-local comment-end "")
   (setq-local comment-start "// ")
   (setq-local comment-start-skip "//\\s-*")
