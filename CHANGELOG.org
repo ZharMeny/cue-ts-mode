@@ -1,0 +1,30 @@
+* 0.3.0
+[2024-08-21]
+
+** ~cue-ts-mode~ will now signal an error if the grammar is not present
+If ~(treesit-ready-p 'cue)~ returns ~nil~ when ~cue-ts-mode~ is
+activated, an error will be signaled with ~error~.
+
+: commit 37b36735592a98920eb53eac67b2db574471f336
+: signal an error if the grammar isn't available
+
+** the correct face will be applied to ':' now
+Previously, the ~font-lock-operator-face~ was applied to the colon
+character.  Now, ~font-lock-delimiter-face~ will be applied instead.
+
+: commit 18b2ee4d8c3ec9e995903c1928da5b40b2580a5f
+: apply the proper face to ':'
+
+** expressions of the form ~let x = y~ will now be properly font-locked
+Previously, ~y~ would have the ~default~ face applied, instead of the
+~font-lock-variable-use-face~.
+
+: commit 88c934b260452b81f204b9bb2d6d38e5c87fb678
+: fix let_clause highlighting
+
+** ~cue vet~ flymake backend
+Initial implementation of a flymake backend for ~cue vet~, needs
+fleshing out still.
+
+: commit 54bc0ea924c8be99ba42aca90285f63908158be3
+: add a `cue vet` flymake backend
